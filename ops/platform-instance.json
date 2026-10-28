@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 2,
+  "application": "visible-value",
+  "applicationClass": "source-repository",
+  "repository": {
+    "slug": "sneakocom/visible-value",
+    "cloneUrl": "git@github.com:sneakocom/visible-value.git"
+  },
+  "hostAdmin": {
+    "services": [],
+    "database": null
+  },
+  "security": {
+    "trivy": true,
+    "renovate": true,
+    "health": null
+  }
+}
