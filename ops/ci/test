@@ -6,6 +6,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 
 step() { printf '\n==> %s\n' "$*"; }
 
+step "Install dependencies"
+npm ci
+
 step "Run test suite"
 npm test
 
