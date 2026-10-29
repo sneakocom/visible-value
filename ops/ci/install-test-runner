@@ -36,8 +36,17 @@ done
 HOOK
 cat >"$support/job-completed.sh" <<'HOOK'
 #!/usr/bin/env bash
-set -Eeuo pipefail
-find /var/lib/visible-value-ci/runner/_work -xdev -mindepth 1 -delete
+# Scrub the job work dir. Best-effort only: cleanup must never fail a job
+# whose steps passed, and the runner's self-update staging (_work/_update)
+# is managed by the runner itself and left alone. (The original fleet
+# one-liner, find -delete under set -e, failed three first-run MaCo jobs on
+# 2026-10-29 when it raced an in-progress runner self-update.)
+set -uo pipefail
+work="/var/lib/visible-value-ci/runner/_work"
+if [[ -d "$work" ]]; then
+  find "$work" -xdev -mindepth 1 -maxdepth 1 ! -name _update -exec rm -rf -- {} + 2>/dev/null || true
+fi
+exit 0
 HOOK
 chmod 0755 "$support/job-started.sh" "$support/job-completed.sh"
 
