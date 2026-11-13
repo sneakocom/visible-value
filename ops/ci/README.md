@@ -1,4 +1,4 @@
-# ops/ci — canonical lifecycle for opsle/visible-value
+# ops/ci — canonical lifecycle for sneakocom/visible-value
 
 ```
 AI → PR → TEST → MERGE → TEST merged SHA → DEPLOY → VERIFY
