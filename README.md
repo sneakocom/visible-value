@@ -9,12 +9,12 @@ Requires Node 22+. Install an immutable Git commit (the consuming application's
 lockfile pins all transitive dependencies):
 
 ```sh
-npm install @opsle/visible-value@github:opsle/visible-value#v0.1.0
+npm install @opsle/visible-value@github:sneakocom/visible-value#v0.1.0
 npx visible-value summarize node_modules/@opsle/visible-value/examples/run.json
 ```
 
 For standalone development: clone this repository, run `npm ci`, `npm test`, and
-`npm run example`. For a global CLI use `npm install -g github:opsle/visible-value#v0.1.0`.
+`npm run example`. For a global CLI use `npm install -g github:sneakocom/visible-value#v0.1.0`.
 Tags name releases; pin a full commit SHA instead when enforcing immutability.
 
 ## Public interface
@@ -31,12 +31,22 @@ sorts object keys. `summarize`, `formatSummary`, `formatIndicator`, and `VERSION
 are exported. Functions do not read Git, clocks, remote evidence, or environment
 configuration. Input receipt order is retained and determines row order.
 
-The CLI reads JSON from a file or stdin:
+The CLI reads JSON from a file or stdin. With the CLI installed, run it
+against your own run and receipt files:
 
 ```sh
 visible-value summarize run.json > report.json
 visible-value validate receipt.json
 cat run.json | visible-value summarize --quiet
+```
+
+From a clone of this repository the CLI is not on your PATH; invoke it as
+`node bin/visible-value.js` and use the bundled examples, which run verbatim:
+
+```sh
+node bin/visible-value.js summarize examples/run.json > report.json
+node bin/visible-value.js validate examples/receipt.json
+cat examples/run.json | node bin/visible-value.js summarize --quiet
 ```
 
 Successful stdout is canonical newline-terminated JSON. One concise
@@ -82,8 +92,9 @@ refer to the producer's canonical artifact. Keep those artifacts beside the
 receipt. A receipt marked VERIFIED is not an attestation from Visible Value.
 No telemetry is sent anywhere and no models are called.
 
-The normative definition comes from `opsle/research`'s
+The normative definition comes from `sneakocom/research`'s
 `program/VISIBLE_VALUE_CONTRACT.md` (introduced at `84c5529`). This repository
 implements its reusable receipt validation and reporting layer; mechanism
 execution and evidence production remain with each mechanism. Consumers decide
-whether reporting failure blocks their work; Opsle Tasks blocks completion.
+whether reporting failure blocks their work; Opsle Tasks blocked completion
+until its retirement on 2026-10-31.
