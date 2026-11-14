@@ -32,6 +32,10 @@ if [[ ! -d $release_dir ]]; then
   trap 'rm -rf -- "$candidate"' EXIT
   mkdir -p "$candidate"
   git archive "$sha" | tar -x -C "$candidate"
+  # Runtime dependencies (ajv, ajv-formats) must ship inside the release.
+  # A git archive contains no node_modules, and VERIFY runs the CLI straight
+  # from the release dir, so without this the deployed CLI cannot start.
+  npm ci --omit=dev --prefix "$candidate"
   npm --prefix "$candidate" pack --pack-destination "$candidate" 2>/dev/null || true
   chmod -R a+rX "$candidate"
   mv "$candidate" "$release_dir"
